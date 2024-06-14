@@ -3,9 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Velara - Intelligent Virtual Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <H1>Nebula AI</H1>
+    <header>
+        <h1>Velara</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="home">
+        <div class="hero">
+            <div class="hero-overlay">
+                <h2 class="hero-title">Your New Intelligent Virtual Assistant</h2>
+                <p>Experience the future of AI with Velara</p>
+                <button onclick="learnMore()">Learn More</button>
+            </div>
+        </div>
+    </section>
+    <section id="features">
+        <h2>Features</h2>
+        <div class="features-container">
+            <div class="feature">
+                <h3>Smart Responses</h3>
+                <p>Get intelligent and relevant responses tailored to your needs.</p>
+            </div>
+            <div class="feature">
+                <h3>24/7 Availability</h3>
+                <p>Access Velara anytime, anywhere.</p>
+            </div>
+            <div class="feature">
+                <h3>Multilingual Support</h3>
+                <p>Communicate in multiple languages effortlessly.</p>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <h2>About Us</h2>
+        <p>Velara is developed by a team of experts dedicated to bringing the most advanced AI technology to your fingertips.</p>
+    </section>
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Velara</h3>
+            </div>
+            <div class="footer-section">
+                <h4>Address</h4>
+                <p>Vancouver, BC</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: <a href="mailto:velara.ai@gmail.com">velara.ai@gmail.com</a></p>
+                <p>Phone: (600) 400-5000</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <p>
+                    <a href="#"><img src="https://image.flaticon.com/icons/svg/733/733547.svg" alt="Facebook" style="width: 20px;"></a>
+                    <a href="#"><img src="https://image.flaticon.com/icons/svg/733/733579.svg" alt="Twitter" style="width: 20px;"></a>
+                    <a href="#"><img src="https://image.flaticon.com/icons/svg/733/733558.svg" alt="Instagram" style="width: 20px;"></a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Velara. All rights reserved. Powered by Velara INC.</p>
+        </div>
+    </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
