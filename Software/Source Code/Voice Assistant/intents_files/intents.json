@@ -1,0 +1,80 @@
+{
+  "intents":
+[
+  {
+    "tag" : "greeting",
+    "patterns" : ["Hello", "Hi", "how is it going", "whats up"],
+    "responses": ["Hi", "Hello", "Hi, how are you?", "Hi, How are you doing", "Hello, how can i help you", "How can I help you?"]
+  },
+  {
+    "tag" : "name",
+    "patterns" : ["what is your name", "your name?", "what your name", "what should i call you", "what i call you", "what can i call you", "what are you"]
+    "responses": ["Call me Alex", "You can call me Alex", "I am alex, How can I help you?", "I am Alex, your virtual assistant", "I am Alex"]
+  },
+  {
+    "tag" : "Volume",
+    "patterns" : ["Volume up", "Volume down", "Volume low", "volume high", "volume full", "mute"],
+    "responses": ["Done"]
+  },
+  {
+    "tag" : "machineWork",
+    "patterns" : ["shutdown", "shutdown the pc", "shutdown this pc", "shutdown this computer", "restart", "restart the pc", "restart this pc", "restart this computer", "lock", "lock the pc", "lock this pc", "lock this computer"]
+    "responses" : ["Are you sure you want to do it.", "Are you sure?"]
+  },
+  {
+    "tag" : "search",
+    "patterns" : ["what is", "can you tell me what is", "can you tell me about", "tell about", "tell me about", "find me about", "tell something about", "tell something related to"],
+    "responses" : ["Hmm, This is what I found", "This is what I found for you", "Is this?"]
+  },
+  {
+    "tag" : "toDo",
+    "patterns" : ["What is in the list", "add to the list", "add to do", "to do", "todo", "2do", "show me the todo list", "what is in todo", "remove from the todo", "remove todo"]
+    "responses" : []
+  },
+  {
+    "tag" : "runApps",
+    "patterns" : ["Run chrome", "run app", "open chrome", "open app", "open", "run", "run this", "open this", "open for me", "run for me"],
+    "responses" : ["Opening", "Running"]
+  },
+  {
+    "tag" : "switchWindows",
+    "patterns" : ["switch to", "switch window", "switch from switch to"],
+    "responses" : []
+  },
+  {
+   "tag" : "calculate",
+    "patterns" : ["1 + 2", "1*2", "1/2", "1^2", "1+2*3/4"],
+    "responses" : ["It is"]
+  },
+  {
+    "tag" : "bye",
+    "patterns" : ["ok, I am going", "ok bye", "bye", "goodbye", "see you", "c ya", "see you", "bye bye", "b bye"],
+    "responses" : ["Ok", "Bye", "Good bye", "Have a nice day", "See you", "Any time you need", "Thank you"]
+  },
+  {
+    "tag" : "Time",
+    "patterns" : ["what is time", "what is the time", "what is the time in", "what is the time here", "how much time is it","It is how much time"]
+    "responses" : ["It's"]
+  },
+  {
+    "tag" : "brightness",
+    "patterns" : ["brightness up", "brightness down", "bright down", "bright up", "brighter", "darker", "brighten the screen", "darken the screen", "make screen dark", "make screen bright"],
+    "responses" : []
+  },
+  {
+    "tag": "location",
+    "patterns": [
+      "where is",
+      "do you know where",
+      "do you know where is",
+      "is where", "where"
+    ],
+    "responses" : []
+  },
+  {
+    "tag" : "play",
+    "patterns" : ["play on youtube", "play youtube", "play", "play song", "song", "youtube"],
+    "responses": []
+  }
+]
+}

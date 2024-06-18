@@ -1,0 +1,17 @@
+Afirkaans af-ZA
+Arabic af-ZA
+Bengali bn-BD
+Chinese zh-TW
+Czech cs-CZ
+Dutch nl-NL
+English en-IN
+Filipino fil-PH
+French fr-CA
+German de-DE
+Hindi hi-HI
+Japanese ja-JP
+Russian ru-RU
+Ukrainian uk-UA
+Urdu ur-PK
+
+

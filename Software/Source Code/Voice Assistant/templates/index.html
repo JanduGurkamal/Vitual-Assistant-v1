@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Virtual Assistant</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Virtual Assistant</h1>
+        </header>
+        <aside class="side-panel">
+            <div class="profile">
+                <h2>User Profile</h2>
+                <!-- User info here -->
+            </div>
+            <button class="side-button">Settings</button>
+            <button class="side-button">Logs</button>
+        </aside>
+        <main class="main-widget-area">
+            <section class="widget">
+                <h2>Weather</h2>
+                <!-- Weather info here -->
+            </section>
+            <section class="widget">
+                <h2>Calendar</h2>
+                <!-- Calendar info here -->
+            </section>
+            <section class="widget">
+                <h2>Smart Devices</h2>
+                <!-- Smart device controls here -->
+            </section>
+        </main>
+        <footer>
+            <div class="voice-command">
+                <p>Voice Command Input</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
