@@ -1,1 +1,1 @@
-Files in these forlder are backend of our Virtual Assistant
+Files in these folder are backend of our Virtual Assistant
