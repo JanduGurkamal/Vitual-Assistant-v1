@@ -4,16 +4,24 @@ import pickle
 import numpy as np
 import nltk
 from nltk.stem import WordNetLemmatizer
-from tensorflow.python import keras
-from keras.layers import Dense, Activation, Dropout
-from keras import Model
-from keras.models import Sequential
-from keras.optimizers import SGD
+from nltk.corpus import stopwords
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, LeakyReLU, BatchNormalization
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.regularizers import l2
+import matplotlib.pyplot as plt
+import re
 
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('stopwords')
 
 lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words('english'))
 
 intents = json.loads(open('intents.json').read())
+
 words = []
 classes = []
 documents = []
@@ -21,15 +29,15 @@ ignore_letters = ['?', '!', '.', ',']
 
 for intent in intents['intents']:
     for pattern in intent['patterns']:
+        pattern = re.sub(r'[^a-zA-Z\s]', '', pattern)
         word_list = nltk.word_tokenize(pattern)
+        word_list = [lemmatizer.lemmatize(w.lower()) for w in word_list if w not in stop_words]
         words.extend(word_list)
         documents.append((word_list, intent['tag']))
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
 
-words = [lemmatizer.lemmatize(word) for word in words if word not in ignore_letters]
 words = sorted(set(words))
-
 classes = sorted(set(classes))
 
 pickle.dump(words, open('words.pkl', 'wb'))
@@ -56,15 +64,45 @@ train_x = list(training[:, 0])
 train_y = list(training[:, 1])
 
 model = Sequential()
-model.add(Dense(128, input_shape=(len(train_x[0]),), activation="relu"))
+model.add(Dense(256, input_shape=(len(train_x[0]),), kernel_regularizer=l2(0.01)))
+model.add(LeakyReLU(alpha=0.1))
 model.add(Dropout(0.5))
-model.add(Dense(64, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dense(128, kernel_regularizer=l2(0.01)))
+model.add(LeakyReLU(alpha=0.1))
 model.add(Dropout(0.5))
+model.add(BatchNormalization())
+model.add(Dense(64, kernel_regularizer=l2(0.01)))
+model.add(LeakyReLU(alpha=0.1))
+model.add(Dropout(0.5))
+model.add(BatchNormalization())
 model.add(Dense(len(train_y[0]), activation='softmax'))
 
-sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
 
-hist = model.fit(np.array(train_x), np.array(train_y), epochs=500, batch_size=10, verbose=2)
+early_stopping = EarlyStopping(monitor='val_loss', patience=15)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0.0001)
+
+hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=16, validation_split=0.2, callbacks=[early_stopping, reduce_lr], verbose=2)
+
 model.save('alex-ml.h5', hist)
+
+# Plot training & validation accuracy values
+plt.plot(hist.history['accuracy'])
+plt.plot(hist.history['val_accuracy'])
+plt.title('Model accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.show()
+
+# Plot training & validation loss values
+plt.plot(hist.history['loss'])
+plt.plot(hist.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.show()
+
 print("Done")
