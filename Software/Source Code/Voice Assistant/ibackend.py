@@ -34,8 +34,8 @@ lang = "en-IN"
 command = ""
 
 # Initialize serial communication
-ser = serial.Serial('COM3', 9600)
-time.sleep(2)  # Wait for serial communication to initialize
+# ser = serial.Serial('COM3', 9600)
+# time.sleep(2)  # Wait for serial communication to initialize
 
 def speak(cmdd):
     '''To convert text to speech for interacting with user.'''
@@ -92,13 +92,13 @@ def check_command():
         replies = ["Hello!", "Hello!, How may I help you?", "Hello!, How can I help you?", "Hi"]
         speak(random.choice(replies))
 
-    if "turn" in command and "light" in command and "on" in command:
-        ser.write(b'1')
-        speak("Light turned on")
-
-    elif "turn" in command and "light" in command and "off" in command:
-        ser.write(b'0')
-        speak("Light turned off")
+    # if "turn" in command and "light" in command and "on" in command:
+    #     ser.write(b'1')
+    #     speak("Light turned on")
+    #
+    # elif "turn" in command and "light" in command and "off" in command:
+    #     ser.write(b'0')
+    #     speak("Light turned off")
 
     elif "how are you" in command:
         replies = ["I am good", "I am good. How can I help you?"]

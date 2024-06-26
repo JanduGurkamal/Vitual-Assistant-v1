@@ -107,19 +107,48 @@
     "responses" : ["machine use, screenshot"]
   },
   {
-    "tag" : "keep name",
-    "patterns" : ["call me now", "call me from now", "say me this", "i am this from now", "you should call me this now", "you should address me this now", "address me as"],
-    "responses" : ["bot modify, keep owner name"]
+    "patterns": [
+      "call me now",
+      "call me from now",
+      "say me this",
+      "i am this from now",
+      "you should call me this now",
+      "you should address me this now",
+      "address me as"
+    ],
+    "responses": [
+      "bot modify, keep owner name"
+    ],
+    "tag": "keep name"
   },
   {
-    "tag" : "languages you speak?",
-    "patterns" : ["what languages can you speak", "can you speak english", "in what languages can you talk", "which languages do you know", "you know which languages", "can you speak multiple languages"],
-    "responses" : ["about, language ability"]
+    "patterns": [
+      "what languages can you speak",
+      "can you speak english",
+      "in what languages can you talk",
+      "which languages do you know",
+      "you know which languages",
+      "can you speak multiple languages"
+    ],
+    "responses": [
+      "about, language ability"
+    ],
+    "tag": "languages you speak?"
   },
   {
-    "tag" : "change language",
-    "patterns" : ["accept my commands in hindi", "now i will speak hindi", "now i will say in french", "listen in japanese now", "listen in spanish now", "respond in french now", "respond in hindi"],
-    "responses" : ["bot modify, language change"]
+    "patterns": [
+      "accept my commands in hindi",
+      "now i will speak hindi",
+      "now i will say in french",
+      "listen in japanese now",
+      "listen in spanish now",
+      "respond in french now",
+      "respond in hindi"
+    ],
+    "responses": [
+      "bot modify, language change"
+    ],
+    "tag": "change language"
   }
 ]
 }

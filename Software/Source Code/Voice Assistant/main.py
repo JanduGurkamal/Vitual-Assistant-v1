@@ -153,8 +153,7 @@ def tell(result, command):
 
             html_to_parse = page.content
             soup = BeautifulSoup(html_to_parse, 'html.parser')
-            speak("It's " + soup.find("div", attrs={"class": "BNeawe iBp4i AP7Wnd"})
-                  .string + f"in {command}")
+            speak("It's " + soup.find("div", attrs={"class": "BNeawe iBp4i AP7Wnd"}).string + f"in {command}")
 
 
 def greet(result, command):
