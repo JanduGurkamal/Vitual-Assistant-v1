@@ -182,6 +182,14 @@ def work_bot(result, command):
     elif "play" in result.lower():
         command = command.replace("play", "")
         pywhatkit.playonyt(command)
+    elif "calculate" in result.lower():
+        command = command.replace("calculate", "").strip()
+        complex_terms = ['sin', 'cos', 'tan', 'log', 'factorial', 'ceil', 'floor', 'gcd', 'lcm']
+        if any(term in command for term in complex_terms):
+            speak(f"Sorry {OWNER_NAME}, I am still being programmed for trigonometric or complex calculations.")
+        else:
+            ans = sum(map(int, re.findall(r'[+-]?\d+', command)))
+            speak(f"It's {ans}")
     elif "run apps" in result.lower():
         speak("Ok")
         command = command.replace("open", "").replace("for", "").replace("me", "").strip()

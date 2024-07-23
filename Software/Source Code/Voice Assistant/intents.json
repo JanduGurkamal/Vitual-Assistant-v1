@@ -49,7 +49,7 @@
   {
    "tag" : "calculate",
     "patterns" : ["1 + 2", "1*2", "1/2", "1^2", "1+2*3/4"],
-    "responses" : ["calculate"]
+    "responses" : ["work bot, calculate"]
   },
   {
     "tag" : "bye",
