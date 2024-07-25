@@ -9,10 +9,10 @@ body {
 }
 
 header {
-    background: #002F6C; /* Sky Blue for header */
+    background: #002864; /* Navy Blue for header */
     padding: 10px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
@@ -20,77 +20,52 @@ header {
     z-index: 1000;
 }
 
-.header-top {
-    background: #002F6C; /* Sky Blue */
-    color: #e0e0e0; /* Charcoal Gray for text */
-    padding: 10px 20px;
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Adjust the max width as needed */
 }
 
-.header-top .contact-info span, .header-top .contact-info a {
-    margin-right: 20px;
-}
-
-.header-top .social-media a {
-    margin-left: 10px;
-}
-
-.header-top .social-media img {
-    width: 20px;
-    height: 20px;
-}
-
-.header-main {
-    background: #002F6C; /* Sky Blue for header main */
-    color: #e0e0e0; /* Charcoal Gray for text */
-    padding: 20px 20px;
+.logo-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
 }
 
-.header-main .logo {
-    height: 50px;
-    margin-right: 20px;
+.logo-container .logo {
+    width: 100px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px;
 }
 
-header h1 {
-    margin: 0;
-    color: #e0e0e0; /* Charcoal Gray */
-    font-family: 'Consolas', monospace;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    margin-left: 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #e0e0e0; /* Charcoal Gray */
+.logo-container span {
+    color: #FFFFFF; /* White for text */
+    font-size: 1.5rem;
     font-weight: 600;
-    transition: color 0.3s;
 }
 
-nav ul li a:hover {
-    color: #FFB6C1; /* Light Pink */
+.minimal-button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #FFFFFF; /* White for text */
+    background-color: #1964a1; /* Navy Blue */
+    border: 0.5px solid #5a5a5a; /* White border */
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.minimal-button:hover {
+    background-color: #FFFFFF; /* White background */
+    color: #000080; /* Navy Blue text */
+    border-color: #000080; /* Navy Blue border */
 }
 
 .hero {
     position: relative;
-    background: url('path/to/your-background-image.jpg') no-repeat center center/cover;
+    background: url('background-for-website.png') no-repeat center center/cover;
     text-align: center;
     padding: 150px 20px;
     overflow: hidden;
@@ -125,7 +100,7 @@ nav ul li a:hover {
 }
 
 .hero a.button {
-    background: #FF7F50; /* Coral */
+    background: #1a303d; /* Coral */
     border: none;
     padding: 15px 30px;
     font-size: 1rem;
@@ -138,8 +113,23 @@ nav ul li a:hover {
 }
 
 .hero a.button:hover {
-    background: #FFFACD; /* Lemon Yellow */
+    background: #86b1ad; /* Lemon Yellow */
     transform: scale(1.05);
+}
+
+/* Responsive Design for Hero Section */
+@media (max-width: 768px) {
+    .hero {
+        padding: 100px 20px; /* Reduce padding for smaller screens */
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
 }
 
 section {
@@ -168,6 +158,18 @@ section {
 .feature:hover {
     transform: scale(1.05);
     background-color: #E0E0E0; /* Soft Gray */
+}
+
+.feature img {
+    max-width: 40%; /* Ensure image does not exceed the width of its container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.feature-image {
+    max-width: 200px; /* Adjust the max-width as needed */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto 10px; /* Center the image and add bottom margin */
 }
 
 form {
@@ -212,7 +214,7 @@ form button {
 }
 
 form button:hover {
-    background: #FFFACD; /* Lemon Yellow */
+    background: #000000; /* Lemon Yellow */
     transform: scale(1.05);
 }
 
@@ -392,7 +394,7 @@ footer {
     margin: 0;
     font-size: 1.25rem;
     margin-bottom: 10px;
-    color: #e0e0e0; /* Charcoal Gray */
+    color: #3b3a3a; /* Charcoal Gray */
 }
 
 .blog-post p {
@@ -432,7 +434,7 @@ footer {
 .contact-item h3 {
     margin-top: 20px;
     font-size: 1.2rem;
-    color: #e0e0e0; /* Charcoal Gray */
+    color: #313131; /* Charcoal Gray */
 }
 
 .contact-item p {
@@ -454,4 +456,79 @@ footer {
 
 .contact-item a:hover {
     color: #F7D6D0; /* Pale Peach */
+}
+
+
+/* Testimonials Section */
+#testimonials {
+    padding: 60px 20px;
+    background-color: #f9f9f9; /* Light Gray background for contrast */
+    text-align: center;
+}
+
+#testimonials h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #05141d; /* Primary text color */
+}
+
+.testimonials-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.testimonial {
+    background: #FFFFFF; /* White background for the testimonial card */
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for card effect */
+    width: calc(50% - 40px); /* Adjust width with margin for responsiveness */
+    max-width: 400px;
+    text-align: left; /* Left-align text inside the card */
+    transition: transform 0.3s;
+}
+
+.testimonial:hover {
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+.testimonial-photo {
+    width: 60px; /* Fixed width for user photo */
+    height: 60px; /* Fixed height for user photo */
+    border-radius: 50%; /* Make the photo circular */
+    margin-bottom: 20px; /* Space below the photo */
+    object-fit: cover; /* Ensure the photo covers the entire area */
+}
+
+.testimonial p {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #666; /* Secondary text color */
+}
+
+.testimonial h4 {
+    font-size: 1.25rem;
+    margin: 10px 0 5px;
+    color: #05141d; /* Primary text color */
+}
+
+.testimonial p:last-of-type {
+    font-size: 0.875rem;
+    margin: 0;
+    color: #999; /* Tertiary text color */
+}
+
+/* Responsive Design for Testimonials */
+@media (max-width: 768px) {
+    .testimonials-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .testimonial {
+        width: 80%;
+        margin: 10px 0;
+    }
 }
