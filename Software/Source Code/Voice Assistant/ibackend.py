@@ -23,7 +23,9 @@ import pyperclip as pc
 import psutil
 from bs4 import BeautifulSoup
 import serial
-
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -63,10 +65,10 @@ def source():
             return command.lower()
         except sp.UnknownValueError:
             speak("Sorry, I didn't catch that. Could you please repeat?")
-            return ""
+            return source()
         except sp.RequestError:
             speak("Sorry, I am unable to reach the speech recognition service.")
-            return ""
+            return source()
 
 
 def send_to_interface():
@@ -87,6 +89,62 @@ def check_command():
     '''To check command and respond as per conditions.'''
     global OWNER_NAME
     global command
+
+
+    if 'send email' in command:
+
+        firstname = command.replace("send email to", "").strip()
+
+        import json
+
+        # Load the data from the JSON file
+        with open('emails.json', 'r') as file:
+            contacts = json.load(file)
+        for contact in contacts:
+            if contact['first_name'].lower() == firstname.lower():
+                receiver_email = contact['email']
+            else:
+                speak("Could not find the email, how else can I help you!")
+                return ''
+
+        speak("What is the subject: ")
+        subject = source()
+        speak("What should I write in the body")
+        body = source()
+
+        # Email configuration
+        sender_email = 'gurkamaljandu76@outlook.com'
+
+        # SMTP server configuration
+        smtp_server = 'smtp-mail.outlook.com'
+        smtp_port = 587
+        smtp_username = 'gurkamaljandu76@outlook.com'
+        smtp_password = 'Gurkamal_opo1'
+
+        # Create the email message
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = receiver_email
+        msg['Subject'] = subject
+
+        msg.attach(MIMEText(body, 'plain'))
+
+        try:
+            # Connect to the SMTP server
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()  # Upgrade the connection to a secure encrypted SSL/TLS connection
+            server.login(smtp_username, smtp_password)
+
+            # Send the email
+            server.send_message(msg)
+            speak('Email sent successfully')
+
+            # Disconnect from the server
+            server.quit()
+            main_function()
+        except Exception as e:
+            speak(f'Failed to send email: {e}')
+            main_function()
 
     if "hello" in command and "what" not in command:
         replies = ["Hello!", "Hello!, How may I help you?", "Hello!, How can I help you?", "Hi"]
@@ -251,9 +309,6 @@ def check_command():
         else:
             speak("Ok")
 
-    else:
-        speak("Ok, this is what I found!")
-        pywhatkit.search(command)
 
 
 def wake_up():

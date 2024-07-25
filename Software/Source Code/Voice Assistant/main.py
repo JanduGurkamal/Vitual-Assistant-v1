@@ -20,6 +20,10 @@ import pyautogui
 import pyperclip as pc
 import psutil
 from bs4 import BeautifulSoup
+import json
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -36,6 +40,12 @@ def speak(cmdd):
     engine.say(cmdd)
     engine.runAndWait()
 
+def stop():
+    winsound.Beep(1000, 100)
+    winsound.Beep(500, 100)
+    winsound.Beep(1000, 100)
+    winsound.Beep(500, 100)
+    sys.exit()
 
 def get_owner_name():
     """To get device name to use it as
@@ -190,6 +200,56 @@ def work_bot(result, command):
         else:
             ans = sum(map(int, re.findall(r'[+-]?\d+', command)))
             speak(f"It's {ans}")
+    elif "send email" in result.lower():
+        firstname = command.replace("email", "").replace("throw", "").replace("to", "").replace("send", "").replace("an", "").replace("a", "").strip()
+        # Load the data from the JSON file
+        with open('emails.json', 'r') as file:
+            contacts = json.load(file)
+        for contact in contacts:
+            if contact['first_name'].lower() == firstname.lower():
+                receiver_email = contact['email']
+            else:
+                speak("Could not find the email, how else can I help you!")
+                return ''
+
+        speak("What is the subject: ")
+        subject = source()
+        speak("What should I write in the body")
+        body = source()
+
+        # Email configuration
+        sender_email = 'gurkamaljandu76@outlook.com'
+
+        # SMTP server configuration
+        smtp_server = 'smtp-mail.outlook.com'
+        smtp_port = 587
+        smtp_username = 'gurkamaljandu76@outlook.com'
+        smtp_password = 'Gurkamal_opo1'
+
+        # Create the email message
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = receiver_email
+        msg['Subject'] = subject
+
+        msg.attach(MIMEText(body, 'plain'))
+
+        try:
+            # Connect to the SMTP server
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()  # Upgrade the connection to a secure encrypted SSL/TLS connection
+            server.login(smtp_username, smtp_password)
+
+            # Send the email
+            server.send_message(msg)
+            speak('Email sent successfully')
+
+            # Disconnect from the server
+            server.quit()
+            main()
+        except Exception as e:
+            speak(f'Failed to send email: {e}')
+            main()
     elif "run apps" in result.lower():
         speak("Ok")
         command = command.replace("open", "").replace("for", "").replace("me", "").strip()
@@ -218,19 +278,16 @@ def check_conditions(result, command):
     elif "bot modify" in result.lower():
         bot_modify(result, command)
 
-
 def main():
-    while True:
-        try:
-            command = source()
-            print(command)
-            result = in_tent(command)
-            print(result)
-            check_conditions(result, command)
-            if "bye" in result.lower():
-                break
-        except sp.UnknownValueError:
-            speak("I couldn't catch that")
-
-main()
+    try:
+        command = source()
+        print(command)
+        result = in_tent(command)
+        print(result)
+        check_conditions(result, command)
+        if "bye" in result.lower():
+            return ""
+        return (command.strip())
+    except sp.UnknownValueError:
+        speak("I couldn't catch that")
 

@@ -107,6 +107,11 @@
     "responses" : ["machine use, screenshot"]
   },
   {
+    "tag" : "send email",
+    "patterns" : ["send an email to", "give an email to", "throw an email to", "send mail"],
+    "responses" : ["workbot, send email"]
+  },
+  {
     "patterns": [
       "call me now",
       "call me from now",

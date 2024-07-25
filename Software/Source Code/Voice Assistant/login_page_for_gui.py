@@ -1,5 +1,7 @@
 import tkinter as tk
 
+import main
+
 root = tk.Tk()
 root.title("Virtual Assistant")
 root.geometry("400x300")
@@ -91,12 +93,6 @@ def run():
             self.weather_label.setStyleSheet("color: #c5c6c7;")
             home_layout.addWidget(self.weather_label)
 
-            self.calendar_label = QLabel("Calendar Widget", self)
-            self.calendar_label.setAlignment(Qt.AlignCenter)
-            self.calendar_label.setFont(QFont("Open Sans", 14))
-            self.calendar_label.setStyleSheet("color: #c5c6c7;")
-            home_layout.addWidget(self.calendar_label)
-
             self.smart_device_label = QLabel("Smart Device Control", self)
             self.smart_device_label.setAlignment(Qt.AlignCenter)
             self.smart_device_label.setFont(QFont("Open Sans", 14))
@@ -121,18 +117,10 @@ def run():
 
             home_layout.addLayout(smart_device_layout)
 
-            # Add calendar events section
-            add_event_button = QPushButton("Add Event", self)
-            add_event_button.setFont(QFont("Roboto", 12))
-            add_event_button.setStyleSheet("background-color: #45a29e; color: #0b0c10; border: none; padding: 10px;")
-            add_event_button.setCursor(Qt.PointingHandCursor)
-            add_event_button.clicked.connect(self.add_event)
-            home_layout.addWidget(add_event_button)
-
-            self.events_list = QListWidget(self)
-            self.events_list.setFont(QFont("Open Sans", 12))
-            self.events_list.setStyleSheet("color: #0b0c10; background-color: #c5c6c7; padding: 5px;")
-            home_layout.addWidget(self.events_list)
+            self.events_and_commands_display = QTextEdit(self)
+            self.events_and_commands_display.setFont(QFont("Open Sans", 12))
+            self.events_and_commands_display.setStyleSheet("color: #0b0c10; background-color: #c5c6c7; padding: 5px;")
+            home_layout.addWidget(self.events_and_commands_display)
 
             # Set up settings screen
             settings_layout = QVBoxLayout(self.settings_widget)
@@ -174,15 +162,23 @@ def run():
 
             # Add bottom bar
             bottom_bar = QFrame(self)
-            bottom_bar.setFixedHeight(50)
+            bottom_bar.setFixedHeight(200)
             bottom_bar.setStyleSheet("background-color: #1f2833;")
             bottom_layout = QVBoxLayout(bottom_bar)
 
-            self.voice_command_label = QLabel("Voice Command Input", self)
-            self.voice_command_label.setAlignment(Qt.AlignCenter)
+            self.stop = QPushButton("Exit", self)
+            # self.voice_command_label.clicked.connect(self.call_main())
+            self.stop.setFont(QFont("Open Sans", 12))
+            self.stop.setStyleSheet("color: #c5c6c7;")
+            bottom_layout.addWidget(self.stop)
+            self.stop.clicked.connect(main.stop)
+
+            self.voice_command_label = QPushButton("Voice Command Input", self)
+            # self.voice_command_label.clicked.connect(self.call_main())
             self.voice_command_label.setFont(QFont("Open Sans", 12))
             self.voice_command_label.setStyleSheet("color: #c5c6c7;")
             bottom_layout.addWidget(self.voice_command_label)
+            self.voice_command_label.clicked.connect(self.run)
 
             # Add layouts to main layout
             main_layout.addWidget(side_panel)
@@ -191,6 +187,15 @@ def run():
 
             # Setup timer for weather updates
             self.setup_timer()
+
+
+
+        def run(self):
+            command = main.main()
+            if isinstance(command, str):  # Ensure the command is a string
+                self.events_and_commands_display.append(command)
+            else:
+                print("Received command is not a string")
 
         def show_settings(self):
             self.stack.setCurrentWidget(self.settings_widget)
@@ -202,17 +207,7 @@ def run():
             self.stack.setCurrentWidget(self.home_widget)
 
         def update_weather(self):
-            try:
-                api_key = self.api_key_input.text()
-                response = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q=London&appid={api_key}')
-                weather_data = response.json()
-                weather_description = weather_data['weather'][0]['description']
-                temperature = weather_data['main']['temp'] - 273.15  # Convert from Kelvin to Celsius
-                self.weather_label.setText(f"Weather: {weather_description}, Temp: {temperature:.2f}°C")
-            except Exception as e:
-                self.weather_label.setText("Weather update failed")
-                self.logs_text.append(f"Error: {e}")
-                print(e)
+                self.weather_label.setText("IVA")
 
         def setup_timer(self):
             timer = QTimer(self)

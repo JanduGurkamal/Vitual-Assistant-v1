@@ -445,30 +445,72 @@
 # # Save the document
 # doc.save('Deliverable 3 - Gurkamal Singh Jandu and Mateo Ysla.docx')
 # """
+#
+# import pytesseract
+# from PIL import Image
+# import requests
+# from io import BytesIO
+# import os
+#
+# def is_url(path):
+#     return path.startswith('http://') or path.startswith('https://')
+#
+# def load_image(path):
+#     if is_url(path):
+#         response = requests.get(path)
+#         return Image.open(BytesIO(response.content))
+#     else:
+#         return Image.open(path)
+#
+# # Input can be a URL or a local file path
+# image_path = 'img.jpg'  # or 'path/to/your/image.jpg'
+#
+# # Load the image
+# image = load_image(image_path)
+#
+# # Perform OCR on the image
+# text = pytesseract.image_to_string(image)
+#
+# # Print the extracted t
 
-import pytesseract
-from PIL import Image
-import requests
-from io import BytesIO
-import os
 
-def is_url(path):
-    return path.startswith('http://') or path.startswith('https://')
 
-def load_image(path):
-    if is_url(path):
-        response = requests.get(path)
-        return Image.open(BytesIO(response.content))
-    else:
-        return Image.open(path)
 
-# Input can be a URL or a local file path
-image_path = 'img.jpg'  # or 'path/to/your/image.jpg'
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
-# Load the image
-image = load_image(image_path)
+# Email configuration
+sender_email = 'gurkamaljandu76@outlook.com'
+receiver_email = 'gurkamal35.jandu@icloud.com'
+subject = 'Test Email'
+body = 'This is a test email sent from Python.'
 
-# Perform OCR on the image
-text = pytesseract.image_to_string(image)
+# SMTP server configuration
+smtp_server = 'smtp-mail.outlook.com'
+smtp_port = 587
+smtp_username = 'gurkamaljandu76@outlook.com'
+smtp_password = 'Gurkamal_opo1'
 
-# Print the extracted t
+# Create the email message
+msg = MIMEMultipart()
+msg['From'] = sender_email
+msg['To'] = receiver_email
+msg['Subject'] = subject
+
+msg.attach(MIMEText(body, 'plain'))
+
+try:
+    # Connect to the SMTP server
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()  # Upgrade the connection to a secure encrypted SSL/TLS connection
+    server.login(smtp_username, smtp_password)
+
+    # Send the email
+    server.send_message(msg)
+    print('Email sent successfully')
+
+    # Disconnect from the server
+    server.quit()
+except Exception as e:
+    print(f'Failed to send email: {e}')
