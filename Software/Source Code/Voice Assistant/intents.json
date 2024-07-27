@@ -154,6 +154,23 @@
       "bot modify, language change"
     ],
     "tag": "change language"
-  }
+  },
+  {
+    "intents": [
+        {
+            "tag": "retrieve news",
+            "patterns": [
+                "What are the latest news headlines?",
+                "Tell me the news",
+                "What's happening in the world?",
+                "Retrieve news"
+            ],
+            "responses": [
+                "Retrieving the latest news for you."
+            ]
+        }
+    ]
+}
+
 ]
 }
