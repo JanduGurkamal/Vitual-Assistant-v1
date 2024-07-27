@@ -277,6 +277,27 @@ def check_conditions(result, command):
         tell(result, command)
     elif "bot modify" in result.lower():
         bot_modify(result, command)
+    elif "retrieve news" in result.lower():
+        retrieve_news()
+
+def retrieve_news():
+    """Retrieve the latest news headlines."""
+    api_key = 'your_newsapi_key'  # Replace with your NewsAPI key
+    url = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}'
+    
+    try:
+        response = requests.get(url)
+        news_data = response.json()
+        
+        if news_data['status'] == 'ok':
+            articles = news_data['articles']
+            top_headlines = [article['title'] for article in articles[:5]]  # Get top 5 headlines
+            news = "Here are the top news headlines: " + " ; ".join(top_headlines)
+            speak(news)
+        else:
+            speak("I couldn't retrieve the news at the moment.")
+    except Exception as e:
+        speak(f"An error occurred: {e}")
 
 def main():
     try:
