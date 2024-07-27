@@ -514,3 +514,60 @@ try:
     server.quit()
 except Exception as e:
     print(f'Failed to send email: {e}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from get_match import in_tent
+
+def main():
+    try:
+        command = source()
+        result = in_tent(command)
+        check_conditions(result, command)
+        if "bye" in result.lower():
+            return ""
+        return command.strip()
+    except sp.UnknownValueError:
+        speak("I couldn't catch that")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
