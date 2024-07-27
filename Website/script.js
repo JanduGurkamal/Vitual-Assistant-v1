@@ -21,6 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
             header.classList.remove('sticky');
         }
     });
+
+    // Add scroll animations
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    document.querySelectorAll('.feature, .blog-post, .testimonial').forEach(element => {
+        observer.observe(element);
+    });
 });
 
 function initializeVirtualAssistant() {
@@ -78,3 +93,4 @@ function initializeVirtualAssistant() {
             });
     }
 }
+
