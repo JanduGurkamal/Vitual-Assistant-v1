@@ -1,3 +1,4 @@
+# main.py
 from get_match import in_tent
 from datetime import datetime
 from functools import cache, lru_cache
@@ -24,6 +25,7 @@ import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from github_operations import authenticate_github, get_repo_info, list_repo_files, get_file_content
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -32,11 +34,8 @@ engine.setProperty("rate", 155)
 OWNER_NAME = ""
 lang = "en-IN"
 
-
 def speak(cmdd):
-    """To convert text to speech
-    for interacting with user."""
-
+    """To convert text to speech for interacting with user."""
     engine.say(cmdd)
     engine.runAndWait()
 
@@ -48,14 +47,11 @@ def stop():
     sys.exit()
 
 def get_owner_name():
-    """To get device name to use it as
-    name to refer to the user while interacting."""
-
+    """To get device name to use it as name to refer to the user while interacting."""
     global OWNER_NAME
     OWNER_NAME = str(platform.node())
     name_to_use = re.split(r"[,\-;]", OWNER_NAME)
     OWNER_NAME = name_to_use[0]
-
 
 def source():
     listener = sp.Recognizer()
@@ -65,11 +61,9 @@ def source():
     command = listener.recognize_google(voice)
     return command.lower()
 
-
 def about(result, command):
     if "bye" in result.lower():
-        replies = ["Bye, see you!", "Good bye!, I am always available"
-            , "Bye!, nice helping you", "Ok, see you"]
+        replies = ["Bye, see you!", "Good bye!, I am always available", "Bye!, nice helping you", "Ok, see you"]
         speak(random.choice(replies))
     elif "owner" in result.lower():
         speak("I was created by my owner")
@@ -77,7 +71,6 @@ def about(result, command):
         speak("I was created in python")
     elif "name asking" in result.lower():
         speak("I am Alex")
-
 
 def bot_modify(result, command):
     if "owner name" in result.lower():
@@ -87,7 +80,6 @@ def bot_modify(result, command):
         speak(OWNER_NAME)
     elif "language change" in result.lower():
         speak(f"OKAY, Language changed to {command.split()[0]}")
-
 
 def machine_use(result, command):
     if "volume" in result.lower():
@@ -147,38 +139,33 @@ def machine_use(result, command):
         pyautogui.hotkey("alt", "tab")
 
 def tell(result, command):
-        command = command.replace("what", "").replace("is", "") \
-            .replace("time", "").replace("in", "").strip()
-        if command in ("", " "):
-            speak(f"It\'s {datetime.now().strftime('%H:%M')}")
-        else:
-            page = requests.get(
-                f"https://www.google.com/search?q=time+in+{command.strip().lower()}&source=hp&ei"
-                f"=5D5AY_y9PK_cz7sPlduVuA4&iflsig=AJiK0e8AAAAAY0BM9ZZBPDiCbT-Rr-dXkH-wfhROWS0E&ved"
-                f"=0ahUKEwj8v8b9sM76AhUv7nMBHZVtBecQ4dUDCAc&uact=5&oq=time+in+london&gs_lcp"
-                f"=Cgdnd3Mtd2l6EAMyCwgAEIAEELEDEIMBMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCA"
-                f"BDIFCAAQgAQyBQgAEIAEOg4IABCPARDqAhCMAxDlAjoOCC4QjwEQ6gIQjAMQ5QI6EQguEIAEELEDEIMBEMcBENEDOgsILhCA"
-                f"BBCxAxCDAToFCC4QgAQ6CAguEIAEELEDOggILhCxAxCDAToICAAQgAQQsQM6BwgAELEDEAo6DgguEIAEELEDEMcBENEDOgcI"
-                f"ABCABBAKULwDWOMRYMsTaAFwAHgAgAG8AYgBkhKSAQQwLjE0mAEAoAEBsAEK&sclient=gws-wiz", timeout=(5, 2))
+    command = command.replace("what", "").replace("is", "") \
+        .replace("time", "").replace("in", "").strip()
+    if command in ("", " "):
+        speak(f"It\'s {datetime.now().strftime('%H:%M')}")
+    else:
+        page = requests.get(
+            f"https://www.google.com/search?q=time+in+{command.strip().lower()}&source=hp&ei"
+            f"=5D5AY_y9PK_cz7sPlduVuA4&iflsig=AJiK0e8AAAAAY0BM9ZZBPDiCbT-Rr-dXkH-wfhROWS0E&ved"
+            f"=0ahUKEwj8v8b9sM76AhUv7nMBHZVtBecQ4dUDCAc&uact=5&oq=time+in+london&gs_lcp"
+            f"Cgdnd3Mtd2l6EAMyCwgAEIAEELEDEIMBMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCA"
+            f"BDIFCAAQgAQyBQgAEIAEOg4IABCPARDqAhCMAxDlAjoOCC4QjwEQ6gIQjAMQ5QI6EQguEIAEELEDEIMBEMcBENEDOgsILhCA"
+            f"BBCxAxCDAToFCC4QgAQ6CAguEIAEELEDOggILhCxAxCDAToICAAQgAQQsQM6BwgAELEDEAo6DgguEIAEELEDEMcBENEDOgcI"
+            f"ABCABBAKULwDWOMRYMsTaAFwAHgAgAG8AYgBkhKSAQQwLjE0mAEAoAEBsAEK&sclient=gws-wiz", timeout=(5, 2))
 
-            html_to_parse = page.content
-            soup = BeautifulSoup(html_to_parse, 'html.parser')
-            speak("It's " + soup.find("div", attrs={"class": "BNeawe iBp4i AP7Wnd"}).string + f"in {command}")
-
+        html_to_parse = page.content
+        soup = BeautifulSoup(html_to_parse, 'html.parser')
+        speak("It's " + soup.find("div", attrs={"class": "BNeawe iBp4i AP7Wnd"}).string + f"in {command}")
 
 def greet(result, command):
     if "greeting" in result.lower():
-        replies = ["Hello!", "Hello!, How may I help you"
-            , "Hello!, How can I help you", "Hi"]
+        replies = ["Hello!", "Hello!, How may I help you", "Hello!, How can I help you", "Hi"]
         speak(random.choice(replies))
     elif "how are you" in result.lower():
         replies = ["I am good", "I am good, What about you", "i am fine, How are you doing today", "I am good how may I help you today"]
         speak(random.choice(replies))
     elif "bye" in result.lower():
-        replies = ["Bye!, see you", "Good bye!, I am always available for you"
-            , "Bye!, nice helping you", "Ok, see you"]
-        speak(random.choice(replies))
-
+        replies = ["Bye!, see you", "Good bye!, I am always available for you", "Bye!, nice helping you", "Ok, see you"]
 
 def work_bot(result, command):
     if "location" in result.lower():
@@ -262,7 +249,24 @@ def work_bot(result, command):
         speak("Ok, This is what I found!")
         print(pywhatkit.search(command))
 
+def handle_github_operations(command):
+    token = "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"
+    g = authenticate_github(token)
+    repo_name = "JanduGurkamal/nebula.ai"
 
+    if "repository info" in command:
+        repo_info = get_repo_info(g, repo_name)
+        speak(f"Repository {repo_name} has {repo_info.stargazers_count} stars and {repo_info.forks_count} forks.")
+
+    elif "list files" in command:
+        files = list_repo_files(g, repo_name)
+        speak(f"The repository {repo_name} contains the following files: {', '.join(files)}")
+
+    elif "file content" in command:
+        parts = command.split("file content ")
+        file_path = parts[1]
+        content = get_file_content(g, repo_name, file_path)
+        speak(f"The content of the file {file_path} is: {content}")
 
 def check_conditions(result, command):
     if "about" in result.lower():
@@ -279,10 +283,12 @@ def check_conditions(result, command):
         bot_modify(result, command)
     elif "retrieve news" in result.lower():
         retrieve_news()
+    elif "repository info" in command.lower() or "list files" in command.lower() or "file content" in command.lower():
+        handle_github_operations(command)
 
 def retrieve_news():
     """Retrieve the latest news headlines."""
-    api_key = 'your_newsapi_key'  # Replace with your NewsAPI key
+    api_key = '98d677ba5f9d49a79f4bdeedb8875b44'  # Replace with your NewsAPI key
     url = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}'
     
     try:
@@ -311,4 +317,5 @@ def main():
         return (command.strip())
     except sp.UnknownValueError:
         speak("I couldn't catch that")
+
 
