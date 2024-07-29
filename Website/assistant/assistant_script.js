@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password }),
+            credentials: 'include'  // Include credentials in the request
         })
         .then(response => response.json())
         .then(data => {
@@ -66,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ message: query })
+            body: JSON.stringify({ message: query }),
+            credentials: 'include'  // Include credentials in the request
         })
         .then(response => response.json())
         .then(data => {
